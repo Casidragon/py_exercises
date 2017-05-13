@@ -1,0 +1,7 @@
+可以输入一个网站，从网站上爬图片，再放到以网站命名的文件夹中，而且要以时间分开
+如F:\pythonTest\www.baidu.com\20170204
+2017 2 4 version1.0 完成，基本达到预期要求，但不能自动判断http和https
+2017 2 5 v1.1 完成增加了判断http和https的功能，但只能爬取绝对路径
+2017 2 5 v1.2 增加了保存网页的功能
+https:\/\/ss1.bdstatic.com\/5eN1bjq8AAUYm2zgoY3K\/r\/www\/cache\/static\/protocol\/https\/global\/img\/icons_5859e57.png 应该增加对转义字符的支持
+文件名相同的图片不支持
