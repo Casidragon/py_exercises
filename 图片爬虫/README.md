@@ -3,5 +3,8 @@
 2017 2 4 version1.0 完成，基本达到预期要求，但不能自动判断http和https
 2017 2 5 v1.1 完成增加了判断http和https的功能，但只能爬取绝对路径
 2017 2 5 v1.2 增加了保存网页的功能
-https:\/\/ss1.bdstatic.com\/5eN1bjq8AAUYm2zgoY3K\/r\/www\/cache\/static\/protocol\/https\/global\/img\/icons_5859e57.png 应该增加对转义字符的支持
+
+应该增加对转义字符的支持
+
+
 文件名相同的图片不支持
