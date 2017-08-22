@@ -45,16 +45,19 @@ while runFlag:
     newL = []
     newD = {}
     
-
-    for i in range(0 , len(D['result']['voteGroups'])):
-        for j in range(0 , len(D['result']['voteGroups'][i]['characters'])):
-            name = D['result']['voteGroups'][i]['characters'][j]['chn_name']
-            id = D['result']['voteGroups'][i]['characters'][j]['character_id']
-            characterList = {'name':name,'id':id,'trueLove': 0, 'generalVotes': 0, 'allVotes': 0, 'deltaVotes':0 }
-            newL.append(characterList)
-        dictName = 'Group_' + '%d' % i
-        newD[dictName] = newL
-        newL = []
+    if D['result']['voteGroups'] != []:
+        for i in range(0 , len(D['result']['voteGroups'])):
+            for j in range(0 , len(D['result']['voteGroups'][i]['characters'])):
+                name = D['result']['voteGroups'][i]['characters'][j]['chn_name']
+                id = D['result']['voteGroups'][i]['characters'][j]['character_id']
+                characterList = {'name':name,'id':id,'trueLove': 0, 'generalVotes': 0, 'allVotes': 0, 'deltaVotes':0 }
+                newL.append(characterList)
+            dictName = 'Group_' + '%d' % i
+            newD[dictName] = newL
+            newL = []
+    else:
+        time.sleep(3600 * 24)
+        break
 
 
     def voteAdd(startPosition, endPosition, vote_dict):
