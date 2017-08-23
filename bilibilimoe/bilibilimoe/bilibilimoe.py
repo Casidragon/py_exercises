@@ -172,7 +172,7 @@ while runFlag:
             if vote_dict['code'] == 0:
                 break
             else:
-                time.sleep(3200)
+                time.sleep(5 * random.random())
             if times > 10:
                 i += 1
                 failedList.append(i)
