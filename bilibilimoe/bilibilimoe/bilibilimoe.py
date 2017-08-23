@@ -94,10 +94,12 @@ while runFlag:
         sort()
         print(nowTime)
         pprint.pprint(newD,width = 170)
+        pprint.pprint(failedList)
         f=open(fileName,'a',encoding='utf-8')
         f.write(nowTime)
         f.write('\n')
         pprint.pprint(newD,f,width = 170)
+        pprint.pprint(failedList, f)
         #f.write(str(newL))
         f.write('\n\n')
         f.close()     
@@ -148,6 +150,7 @@ while runFlag:
             voteAdd(newLFlag, len(vote_dict['result']), vote_dict)
     
     allList = range(1, 20000)
+    global failedList
     failedList = []
 
 
@@ -168,6 +171,8 @@ while runFlag:
             times += 1
             if vote_dict['code'] == 0:
                 break
+            else:
+                time.sleep(3200)
             if times > 10:
                 i += 1
                 failedList.append(i)
@@ -191,6 +196,7 @@ while runFlag:
         else:
             if time.strftime('%H%M%S',time.localtime()) <= '230000':
                 sleep()
+                endPosition = 0
                 afterSleep(i, endPosition)
             else:break
 
