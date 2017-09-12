@@ -18,7 +18,7 @@ if not os.path.exists(targetDir):
 
  
 while runFlag:
-    fake_headers = [{
+    fakeHeaders = [{
                      'Host': 'bangumi.bilibili.com',
                      'Proxy-Connection': 'keep-alive',
                      'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:14.0) Gecko/20100101 Firefox/14.0.1'},
@@ -93,7 +93,7 @@ while runFlag:
         fileName = targetDir+ os.sep +'moe_' + day + '.log'
         sort()
         print(nowTime)
-        pprint.pprint(newD,width = 170)
+        pprint.pprint(newD,width = 170)  #如果在vps上运行，可能需要删除该句
         pprint.pprint(failedList)
         f=open(fileName,'a',encoding='utf-8')
         f.write(nowTime)
@@ -136,10 +136,10 @@ while runFlag:
                 print(sleepTime)
                 time.sleep(sleepTime)
    
-    def afterSleep(page,newLFlag):
+    def awake(page,newLFlag):
         url = 'http://bangumi.bilibili.com/moe/2017/2/api/realtime/votes?page='+'%d' % (page)+'&pagesize=50'
         print(url)
-        header = fake_headers[random.randint(0, 3)]
+        header = fakeHeaders[random.randint(0, 3)]
         req = request.Request(url, headers = header)
         vote = request.urlopen(req).read()
         vote = vote.decode('utf-8')
@@ -159,7 +159,7 @@ while runFlag:
             times = 0
             url = 'http://bangumi.bilibili.com/moe/2017/2/api/realtime/votes?page='+'%d' % (i)+'&pagesize=50'
             print(url)
-            header = fake_headers[int(time.time())%4]
+            header = fakeHeaders[int(time.time())%4]
             req = request.Request(url, headers = header)
             try:   
                 vote = request.urlopen(req).read()
@@ -191,13 +191,13 @@ while runFlag:
                 voteAdd(startPosition, endPosition, vote_dict)
                 if time.strftime('%H%M%S',time.localtime()) <= '230000':
                    sleep()
-                   afterSleep(i, endPosition)
+                   awake(i, endPosition)
                 else:break
         else:
             if time.strftime('%H%M%S',time.localtime()) <= '230000':
                 sleep()
                 endPosition = 0
-                afterSleep(i, endPosition)
+                awake(i, endPosition)
             else:break
 
     sleep(1)
