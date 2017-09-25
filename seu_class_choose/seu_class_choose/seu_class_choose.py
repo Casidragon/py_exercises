@@ -251,8 +251,8 @@ class LoginDialog(Toplevel):
             #print(content2)
             # print 'post2 finish'
             match2 = re.findall(
-                r"width=\"15%\" align=\"center\">(.*?)</td>.*?false;\">(.*?)</a>.*?align=\"center\">(.*?)</td>.*?widt"
-                r"h=\"8%\" id=\"(.*?)\"", content2, re.S)
+                r'width=\"15%\" align=\"center\">\s*(.*?)\s*</td>\s*<td width="8%" align="center">[\s|\S]*?false;\">(.*?)</a>[\s|\S]*?align=\"center\">\s*(.*?)\s*</td>[\s|\S]*?width=\"8%\" id=\"(.*?)\"'
+                , content2, re.S)
             for i in range(0, match2.__len__()):
                 tup2 = (match2[i][0], match2[i][1],
                         match2[i][2], match2[i][3])
@@ -270,8 +270,8 @@ class LoginDialog(Toplevel):
             content3.decode('utf-8')
             # print str(content3)
             match3 = re.findall(
-                r"width=\"15%\" align=\"center\">(.*?)</td>.*?false;\">(.*?)</a>.*?align=\"center\">(.*?)</td>.*?widt"
-                r"h=\"8%\" id=\"(.*?)\"", content3, re.S)
+                r'width=\"15%\" align=\"center\">\s*(.*?)\s*</td>\s*<td width="8%" align="center">[\s|\S]*?false;\">(.*?)</a>[\s|\S]*?align=\"center\">\s*(.*?)\s*</td>[\s|\S]*?width=\"8%\" id=\"(.*?)\"'
+                , content3, re.S)
             for i in range(0, match3.__len__()):
                 tup3 = (match3[i][0], match3[i][1],
                         match3[i][2], match3[i][3])
@@ -289,8 +289,8 @@ class LoginDialog(Toplevel):
             content4.decode('utf-8')
             # print str(content4)
             match4 = re.findall(
-                r"width=\"15%\" align=\"center\">(.*?)</td>.*?false;\">(.*?)</a>.*?align=\"center\">(.*?)</td>.*?widt"
-                r"h=\"8%\" id=\"(.*?)\"", content4, re.S)
+                r'width=\"15%\" align=\"center\">\s*(.*?)\s*</td>\s*<td width="8%" align="center">[\s|\S]*?false;\">(.*?)</a>[\s|\S]*?align=\"center\">\s*(.*?)\s*</td>[\s|\S]*?width=\"8%\" id=\"(.*?)\"'
+                , content4, re.S)
             for i in range(0, match4.__len__()):
                 tup4 = (match4[i][0], match4[i][1],
                         match4[i][2], match4[i][3])
@@ -307,8 +307,8 @@ class LoginDialog(Toplevel):
             content5 = response5.read().decode('utf-8')
             # print str(content5)
             match5 = re.findall(
-                r"width=\"20%\" align=\"center\">(.*?)</td>.*?false;\">(.*?)</a>.*?align=\"center\">(.*?)</td>.*?widt"
-                r"h=\"8%\" id=\"(.*?)\"", content5, re.S)
+                r'width=\"15%\" align=\"center\">\s*(.*?)\s*</td>\s*<td width="8%" align="center">[\s|\S]*?false;\">(.*?)</a>[\s|\S]*?align=\"center\">\s*(.*?)\s*</td>[\s|\S]*?width=\"8%\" id=\"(.*?)\"'
+                , content5, re.S)
             for i in range(0, match5.__len__()):
                 tup5 = (match5[i][0], match5[i][1],
                         match5[i][2], match5[i][3])
@@ -325,8 +325,8 @@ class LoginDialog(Toplevel):
             content6 = response6.read().decode('utf-8')
             # print str(content6)
             match6 = re.findall(
-                r"width=\"20%\" align=\"center\">(.*?)</td>.*?false;\">(.*?)</a>.*?align=\"center\">(.*?)</td>.*?widt"
-                r"h=\"8%\" id=\"(.*?)\"", content6, re.S)
+                r'width=\"15%\" align=\"center\">\s*(.*?)\s*</td>\s*<td width="8%" align="center">[\s|\S]*?false;\">(.*?)</a>[\s|\S]*?align=\"center\">\s*(.*?)\s*</td>[\s|\S]*?width=\"8%\" id=\"(.*?)\"'
+                , content6, re.S)
             for i in range(0, match6.__len__()):
                 tup6 = (match6[i][0], match6[i][1],
                         match6[i][2], match6[i][3])
