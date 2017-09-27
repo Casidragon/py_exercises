@@ -231,7 +231,7 @@ class LoginDialog(Toplevel):
                 if match0[0]=="选课尚未开放":
                     mainLabel.config(text="选课系统还没有开放，可以查看课表")
             match = re.findall(
-                r"\"#666666\">([^<]*?)</font>[^F]*?\ onclick=\"selectThis\(\\\'(.*?)\\\',\\\'(.*?)\\\',\\\'(.*?)\\\',this,\\\'.*?\\\'\)" ,#r"\"#666666\">([^<]*?)</font>[^F]*?\" onclick=\"selectThis\('(.*?)','(.*?)','(.*?)',this,'.*?'\)"
+                r"\"#666666\">([^<]*?)</font>[^F]*?\" onclick=\"selectThis\('(.*?)','(.*?)','(.*?)',this,'.*?'\)",
                 content, re.S)
             for i in range(0, match.__len__()):
                 tup = (match[i][0], match[i][1],
@@ -396,7 +396,9 @@ def catch_humanities():
         root.update()
         list_selecting.append(list_humanity[index][3])
         list_humanity_selecting.append(list_humanity[index][3])
-        thread.start_new_thread(select_worker, (1, list_humanity[index][3], index))
+        #thread.start_new_thread(select_worker, (1, list_humanity[index][3], index))
+        threading.Thread(target = select_worker,args = (1, list_humanity[index][3], index))
+
 
 
 def catch_science():
@@ -939,7 +941,7 @@ if __name__ == "__main__":
     root.title("东南大学选课助手")
     root.resizable(width=False, height=False)
     root.geometry('960x500+100+100')
-    #root.bind("<<EVENT_LOGIN>>", login_start)
+    root.bind("<<EVENT_LOGIN>>", login_start)
     root.bind("<<EVENT_LOGIN_UPDATE>>", login_update)
     root.bind("<<EVENT_ON_CREATE>>", on_create)
     root.bind("<<UPDATE_INSTITUTE_LIST>>", update_institute)
