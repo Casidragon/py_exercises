@@ -5,6 +5,7 @@ import sys
 import time
 import tkinter
 import pprint
+from decimal import Decimal
 from tkinter import ttk
 from PIL import Image, ImageTk
 
@@ -15,7 +16,18 @@ path = os.path.abspath('.')
 
 global dirNameList
 global filesNameList
+global comboboxNum
+global nowTime
+global control
+global state
+global index
 
+
+index = 0
+state = 1
+control = 1
+nowTime = 60.0
+comboboxNum = 0
 dirNameList = []
 filesNameList = []
 
@@ -28,6 +40,48 @@ def getDirName():
     i = 0;
     for root, dirNameList, files in os.walk(".",topdown = False):
         filesNameList.append(files)
+
+def countDown():
+    global nowTime
+    global index
+    global state
+    global control
+    if control == 1:
+        nowTime = Decimal('60.0') - Decimal('0.1') * index
+        timeCounterLabel["text"] = str(nowTime)
+        index += 1
+        if index < 601:
+            root.after(100, countDown)
+            if control == 0: root.after(1000, countDown)
+        else: state = 1
+    else: root.after(1000, countDown)
+
+        
+
+def pause():
+    global control
+    global state
+    control = 0
+    state = 0
+
+def start():
+    global comboboxNum
+    global dirPath
+    global imgNum 
+    global control
+    global state
+    global index
+    if state == 1:
+        comboboxNum = dropList.current()
+        #print(comboboxNum)
+        dirPath = path + os.sep + dirNameList[comboboxNum] + os.sep
+        imgNum = len(filesNameList[comboboxNum])
+        countDown()
+        #print(dirPath)
+        #print(imgNum)
+    if state == 0:
+        control = 1
+    
 
 
 getDirName()
@@ -51,8 +105,8 @@ for item in dirNameList:
     listBox.insert(1,item)
 
 #button
-buttonStart = tkinter.Button(root, text = "开始",font=("Microsoft YaHei", 8), width = 20, height = 2).place(relx = 0.8, rely = 0.13, anchor = 'nw')
-buttonPause = tkinter.Button(root, text = "暂停",font=("Microsoft YaHei", 8), width = 20, height = 2).place(relx = 0.8, rely = 0.21, anchor = 'nw')
+buttonStart = tkinter.Button(root, text = "开始",font=("Microsoft YaHei", 8), width = 20, height = 2, command = start).place(relx = 0.8, rely = 0.13, anchor = 'nw')
+buttonPause = tkinter.Button(root, text = "暂停",font=("Microsoft YaHei", 8), width = 20, height = 2, command = pause).place(relx = 0.8, rely = 0.21, anchor = 'nw')
 buttonShowAnswer = tkinter.Button(root, text = "显示答案",font=("Microsoft YaHei", 8), width = 20, height = 2).place(relx = 0.8, rely = 0.29, anchor = 'nw')
 buttonExit = tkinter.Button(root, text = "退出", font=("Microsoft YaHei", 8), width = 20, height = 2, command = quit).place(relx = 0.8, rely = 0.37, anchor = 'nw')
 
@@ -68,7 +122,7 @@ imgLabel = tkinter.Label(root, image = img, width =410, height = 600)
 imgLabel.pack(side = "left", expand = "no", ipadx = 20)
 
 #timecounterLabel
-timeCounterLabel = tkinter.Label(root,text = "60.0", font=("Microsoft YaHei", 40))
+timeCounterLabel = tkinter.Label(root,text = nowTime, font=("Microsoft YaHei", 40))
 timeCounterLabel.place(relx = 0.56, rely = 0.76, anchor = 'nw')
 
 #answerLabel
