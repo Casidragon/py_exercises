@@ -5,9 +5,11 @@ import sys
 import time
 import tkinter
 import pprint
+import random
 from decimal import Decimal
 from tkinter import ttk
 from PIL import Image, ImageTk
+from random import randint
 
 def quit():
     sys.exit()
@@ -21,6 +23,8 @@ global nowTime
 global control
 global state
 global index
+global imgLabel
+global img  #我不知道为什么，但不加这一句一定没有图片，我试了3个小时。。。
 
 
 index = 0
@@ -46,9 +50,26 @@ def countDown():
     global index
     global state
     global control
+    global img
     if control == 1:
+        dirPath = path + os.sep + dirNameList[comboboxNum] + os.sep
+        imgNum = len(filesNameList[comboboxNum])
+        filesName = filesNameList[comboboxNum][random.randint(1, imgNum) - 1]
+        imgPath = dirPath + filesName
+        
+        #imgPIL = Image.open(imgPath).resize((410,600))
+        #img = ImageTk.PhotoImage(imgPIL)
+        image(imgPath)
+        #imgLabel["image"] = img
+
+
         nowTime = Decimal('60.0') - Decimal('0.1') * index
         timeCounterLabel["text"] = str(nowTime)
+
+        
+
+        
+
         index += 1
         if index < 601:
             root.after(100, countDown)
@@ -72,11 +93,17 @@ def start():
     global state
     global index
     if state == 1:
+        index = 0
         comboboxNum = dropList.current()
         #print(comboboxNum)
-        dirPath = path + os.sep + dirNameList[comboboxNum] + os.sep
-        imgNum = len(filesNameList[comboboxNum])
+        #dirPath = path + os.sep + dirNameList[comboboxNum] + os.sep
+        #imgNum = len(filesNameList[comboboxNum])
+        #filesName = filesNameList[comboboxNum][random.randint(0, imgNum - 1)]
+        #imgPath = dirPath + filesName
+        #image('H:\py_exercises\学情考察软件\学情考察软件\曹人春，江西吉安，不在前三分之二.jpg')
+        #image()
         countDown()
+        #image()
         #print(dirPath)
         #print(imgNum)
     if state == 0:
@@ -116,10 +143,26 @@ dropList = tkinter.ttk.Combobox(root, font=("Microsoft YaHei", 8), width = 28, v
 dropList.place(relx = 0.53, rely = 0.16, anchor = 'nw')
 
 #image
-imgPIL = Image.open("H:\py_exercises\学情考察软件\学情考察软件\曹人春，江西吉安，不在前三分之二.jpg").resize((410,600))
-img = ImageTk.PhotoImage(imgPIL)
-imgLabel = tkinter.Label(root, image = img, width =410, height = 600)
-imgLabel.pack(side = "left", expand = "no", ipadx = 20)
+def image(imgPath):
+    #global imgLabel
+    global img
+    #dirPath = path + os.sep + dirNameList[1] + os.sep
+    #imgNum = len(filesNameList[1])
+    #filesName = filesNameList[1][int(index / 6)]
+    #imgPath = dirPath + filesName
+    #imgPIL = Image.open('H:\\py_exercises\\学情考察软件\\学情考察软件\\信息学院王婧菲\\俞安澜+河北秦皇岛+前三分之一.jpg').resize((410,600))
+    imgPIL = Image.open(imgPath).resize((410,600))
+    img = ImageTk.PhotoImage(imgPIL)
+    imgLabel = tkinter.Label(root, image = img, width = 410, height = 600)
+    #imgLabel["image"] = img
+    #imgLabel.pack(side = "left", expand = "no", ipadx = 20)
+    imgLabel.place(relx = 0.03, rely = 0.03, anchor = 'nw')
+    
+    #root.update()
+    
+
+
+
 
 #timecounterLabel
 timeCounterLabel = tkinter.Label(root,text = nowTime, font=("Microsoft YaHei", 40))
