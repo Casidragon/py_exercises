@@ -6,6 +6,7 @@ import time
 import tkinter
 import pprint
 import random
+import webbrowser
 from decimal import Decimal
 from tkinter import ttk
 from PIL import Image, ImageTk
@@ -57,7 +58,6 @@ def getDirName():
 def showAnswer():
     global randomNum
     global filesName
-    #filesName = filesNameList[comboboxNum][randomNum]
     answerLabel["text"] = filesName.split('.')[0]
     
 def countDown():
@@ -67,32 +67,21 @@ def countDown():
     global pauseState
     global img
     global randomNum
-    #if pauseState == 0:
-    #dirPath = path + os.sep + dirNameList[comboboxNum] + os.sep
-    #imgNum = len(filesNameList[comboboxNum])
-    #randomNum = random.randint(1, imgNum) - 1
-    #filesName = filesNameList[comboboxNum][randomNum]
-    #imgPath = dirPath + filesName
-    #image()
     if index < 600:
         root.after(100, countDown)
         indexEnd = 0
-        #if pauseState == 1: root.after(1000, countDown)
     else: indexEnd = 1
-    #print(index)
     nowTime = Decimal('60.0') - Decimal('0.1') * index
     timeCounterLabel["text"] = str(nowTime)
 
     index += 1
-    
-    #if pauseState == 1: root.after(1000, countDown) 
 
 def pause():
     global pauseState
     global indexEnd
     buttonStart["state"] = 'normal'
     pauseState = 1
-    #indexEnd = 0
+   
 
 def start():
     global comboboxNum
@@ -111,9 +100,10 @@ def start():
     if pauseState == 1:
         pauseState = 0   #解除暂停状态
     image()
-    #if pauseState == 1:
-    #   pauseState = 1 #question
     answerLabel["text"] = ''
+
+def openWeb(event):
+    webbrowser.open_new("https://github.com/Casidragon/py_exercises/tree/master/%E5%AD%A6%E6%83%85%E8%80%83%E5%AF%9F%E8%BD%AF%E4%BB%B6/%E5%AD%A6%E6%83%85%E8%80%83%E5%AF%9F%E8%BD%AF%E4%BB%B6")
     
 getDirName()
 
@@ -121,9 +111,6 @@ root = tkinter.Tk()
 root.title('学情考察软件')
 root.geometry('1120x650')
 root.resizable(width=True, height=True)
-
-#下标
-tkinter.Label(root, text="东南大学能源与环境学院", font=("Arial", 12)).place(relx = 0.8, rely = 0.9, anchor = 'nw')
 
 #listbox
 listBox=tkinter.Listbox(root)
@@ -163,8 +150,6 @@ def image():
         imgLabel = tkinter.Label(root, image = img, width = 410, height = 600)
         imgLabel.place(relx = 0.03, rely = 0.03, anchor = 'nw')
         root.after(100, image)
-    #if pauseState == 1:
-        
 
 #timecounterLabel
 timeCounterLabel = tkinter.Label(root,text = nowTime, font=("Microsoft YaHei", 40))
@@ -173,5 +158,12 @@ timeCounterLabel.place(relx = 0.56, rely = 0.76, anchor = 'nw')
 #answerLabel
 answerLabel = tkinter.Label(root,text = "", font=("Microsoft YaHei", 15), width = 20, justify = tkinter.CENTER, wraplength = 200)
 answerLabel.place(relx = 0.5, rely = 0.4, anchor = 'nw')
+
+#copyright
+copyright = tkinter.Label(root, text = "Made By Casidragon. Click to get the resource code.", font=("Microsoft YaHei", 8), width = 45, justify = tkinter.LEFT)
+copyright.place(relx = 0.715, rely = 0.97, anchor = 'nw')
+copyright.bind("<Button-1>", openWeb)
+
+tkinter.Label(root, text="东南大学能源与环境学院", font=("Arial", 12)).place(relx = 0.78, rely = 0.93, anchor = 'nw')
 
 root.mainloop()
