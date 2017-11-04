@@ -20,17 +20,18 @@ global dirNameList
 global filesNameList
 global comboboxNum
 global nowTime
-global control
-global state
+global pauseState
+global indexEnd
 global index
 global imgLabel
 global img  #我不知道为什么，但不加这一句一定没有图片，我试了3个小时。。。
 global randomNum
+global filesName
 
 
 index = 0
-state = 1
-control = 1
+indexEnd = 0
+pauseState = 0
 nowTime = 60.0
 comboboxNum = 0
 dirNameList = []
@@ -38,12 +39,12 @@ filesNameList = []
 
 
 def comboboxChange(event):
-    global state
-    global control
+    global indexEnd
+    global pauseState
     global index
     index = 600
-    state = 1
-    control = 1 
+    indexEnd = 1 #切换combobox时，视为601个index已遍历
+    pauseState = 0
     buttonStart["state"] = 'normal'
 
 def getDirName():
@@ -55,55 +56,63 @@ def getDirName():
 
 def showAnswer():
     global randomNum
-    filesName = filesNameList[comboboxNum][randomNum]
+    global filesName
+    #filesName = filesNameList[comboboxNum][randomNum]
     answerLabel["text"] = filesName.split('.')[0]
     
 def countDown():
     global nowTime
     global index
-    global state
-    global control
+    global indexEnd
+    global pauseState
     global img
     global randomNum
-    if control == 1:
-        dirPath = path + os.sep + dirNameList[comboboxNum] + os.sep
-        imgNum = len(filesNameList[comboboxNum])
-        randomNum = random.randint(1, imgNum) - 1
-        filesName = filesNameList[comboboxNum][randomNum]
-        imgPath = dirPath + filesName
-        image(imgPath)
+    #if pauseState == 0:
+    #dirPath = path + os.sep + dirNameList[comboboxNum] + os.sep
+    #imgNum = len(filesNameList[comboboxNum])
+    #randomNum = random.randint(1, imgNum) - 1
+    #filesName = filesNameList[comboboxNum][randomNum]
+    #imgPath = dirPath + filesName
+    #image()
+    if index < 600:
+        root.after(100, countDown)
+        indexEnd = 0
+        #if pauseState == 1: root.after(1000, countDown)
+    else: indexEnd = 1
+    #print(index)
+    nowTime = Decimal('60.0') - Decimal('0.1') * index
+    timeCounterLabel["text"] = str(nowTime)
 
-        nowTime = Decimal('60.0') - Decimal('0.1') * index
-        timeCounterLabel["text"] = str(nowTime)
-
-        index += 1
-        if index < 601:
-            root.after(100, countDown)
-            if control == 0: root.after(1000, countDown)
-        else: state = 1
-    else: root.after(1000, countDown)
+    index += 1
+    
+    #if pauseState == 1: root.after(1000, countDown) 
 
 def pause():
-    global control
-    global state
+    global pauseState
+    global indexEnd
     buttonStart["state"] = 'normal'
-    control = 0
-    state = 0
+    pauseState = 1
+    #indexEnd = 0
 
 def start():
     global comboboxNum
     global dirPath
     global imgNum 
-    global control
-    global state
+    global pauseState
+    global indexEnd
     global index
     buttonStart["state"] = 'disabled'
-    if state == 1:
+    comboboxNum = dropList.current()
+    
+    if pauseState == 0:  #不处于暂停状态
         index = 0
-        comboboxNum = dropList.current()
         countDown()
-    if state == 0:
-        control = 1
+    
+    if pauseState == 1:
+        pauseState = 0   #解除暂停状态
+    image()
+    #if pauseState == 1:
+    #   pauseState = 1 #question
     answerLabel["text"] = ''
     
 getDirName()
@@ -114,7 +123,7 @@ root.geometry('1120x650')
 root.resizable(width=True, height=True)
 
 #下标
-tkinter.Label(root, text="东南大学电气工程学院", font=("Arial", 12)).place(relx = 0.8, rely = 0.9, anchor = 'nw')
+tkinter.Label(root, text="东南大学能源与环境学院", font=("Arial", 12)).place(relx = 0.8, rely = 0.9, anchor = 'nw')
 
 #listbox
 listBox=tkinter.Listbox(root)
@@ -140,12 +149,22 @@ dropList.place(relx = 0.53, rely = 0.16, anchor = 'nw')
 dropList.bind("<<ComboboxSelected>>", comboboxChange)
 
 #image
-def image(imgPath):
+def image():
     global img
-    imgPIL = Image.open(imgPath).resize((410,600))
-    img = ImageTk.PhotoImage(imgPIL)
-    imgLabel = tkinter.Label(root, image = img, width = 410, height = 600)
-    imgLabel.place(relx = 0.03, rely = 0.03, anchor = 'nw')
+    global filesName
+    if pauseState == 0 and indexEnd == 0:
+        dirPath = path + os.sep + dirNameList[comboboxNum] + os.sep
+        imgNum = len(filesNameList[comboboxNum])
+        randomNum = random.randint(1, imgNum) - 1
+        filesName = filesNameList[comboboxNum][randomNum]
+        imgPath = dirPath + filesName
+        imgPIL = Image.open(imgPath).resize((410,600))
+        img = ImageTk.PhotoImage(imgPIL)
+        imgLabel = tkinter.Label(root, image = img, width = 410, height = 600)
+        imgLabel.place(relx = 0.03, rely = 0.03, anchor = 'nw')
+        root.after(100, image)
+    #if pauseState == 1:
+        
 
 #timecounterLabel
 timeCounterLabel = tkinter.Label(root,text = nowTime, font=("Microsoft YaHei", 40))
